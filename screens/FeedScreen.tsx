@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 
-import Container from "../components/layouts/Container";
+import Container from '../components/layouts/Container';
 
 interface IFeedScreenProps {
   navigation: {

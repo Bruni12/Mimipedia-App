@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import Container from "../components/layouts/Container";
+import Container from '../components/layouts/Container';
 
 interface ISearchScreenProps {
   navigation: {
