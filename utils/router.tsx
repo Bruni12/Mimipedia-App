@@ -5,18 +5,28 @@ import { createStackNavigator } from "react-navigation-stack";
 import FeedScreen from "../screens/FeedScreen";
 import SearchScreen from "../screens/SearchScreen";
 import AccountScreen from "../screens/AccountScreen";
-import PostFormScreen from "../screens/PostFormScreen"
+import PostFormScreen from "../screens/PostFormScreen";
 
+import HeaderLogo from "../components/images/HeaderLogo";
+
+import {dark} from "../styles/colors";
 
 const AppStack = createStackNavigator(
     {
         Feed: FeedScreen,
         Search: SearchScreen,
-        Accounte: AccountScreen,
+        Account: AccountScreen,
         PostForm: PostFormScreen
     },
     {
-        initialRouteName: "Feed"
+        initialRouteName: "Feed",
+        defaultNavigationOptions: {
+          headerStyle: {
+            backgroundColor: dark
+          },
+          headerTintColor: "#fff",
+          headerTitle: () => <HeaderLogo />
+       }
     }
 );
 
