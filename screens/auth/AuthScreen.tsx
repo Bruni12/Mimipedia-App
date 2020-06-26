@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
-import axios from "axios";
 
 import textInputStyles from "../../styles/forms/textInputStyles";
 const { textFieldWrapper, textField } = textInputStyles;
 import authScreenStyles from "../../styles/stacks/auth/authScreenStyles";
+import API from "../../utils/api";
 
-const apiEndpoint = "https://brendenbrunnette.devcamp.space/memipedia/memipedia_user_token";
+interface IAuthScreenProps {
+  navigation: {
+    navigate: (arg: string) => void;
+  };
+}
 
-export default () => {
+export default (props: IAuthScreenProps) => {
   const [formToShow, setFormToShow] = useState("LOGIN");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,13 +47,17 @@ export default () => {
         email: email,
         password: password
       }
-    }
-    axios.post(apiEndpoint, params)
-    .then(response => {
-      console.log("Response from handle submit", response.data);
+    };
+    API.post("memipedia_user_token", params)
+       .then(response => {
+         if (response.data.jwt) {
+           props.navigation.navigate ("Feed");
+      } else {
+        alert("It looks like you typed in the wrong email or password, please try again");
+      }
     })
     .catch(error => {
-      console.log("error getting token", error);
+        alert("It looks like you typed in the wrong email or password, please try again");
     });
   };
 
