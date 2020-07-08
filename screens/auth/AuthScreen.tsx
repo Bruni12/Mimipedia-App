@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import { 
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  ScrollView 
+} from "react-native";
 
 import textInputStyles from "../../styles/forms/textInputStyles";
 const { textFieldWrapper, textField } = textInputStyles;
