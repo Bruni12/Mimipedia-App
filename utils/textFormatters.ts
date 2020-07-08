@@ -10,3 +10,4 @@ export const formatErrors = (errorList: any) => {
   
     return formattedErrors.join(", ");
   };
+  
