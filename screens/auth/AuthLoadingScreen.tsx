@@ -19,6 +19,8 @@ export default (props: IAuthLoadingScreenProps) => {
 
   const checkLogin = async () => {
     const token = await SecureStore.getItemAsync("memipedia_secure_token");
+
+    console.log("In check login in auth loading screen");
     
     if (token) {
         // TODO
@@ -27,7 +29,7 @@ export default (props: IAuthLoadingScreenProps) => {
       setCurrentUser(null);
       props.navigation.navigate("Auth");
     }
-  }
+  };
 
     return <View/>
 };
