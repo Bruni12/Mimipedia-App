@@ -28,7 +28,7 @@ export default (props: IAuthScreenProps) => {
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { currentUser, getUser } = useContext(CurrentUserContext);
+  const { getUser } = useContext(CurrentUserContext);
 
   const screenTypeText = () => {
     if (formToShow === "LOGIN") {
@@ -68,22 +68,22 @@ export default (props: IAuthScreenProps) => {
             "memipedia_secure_token",
              response.data.jwt
            );
-          getUser(); 
+          getUser();
+          setIsSubmitting(false); 
           props.navigation.navigate("Feed");
         } else {
+          setIsSubmitting(false);
           alert(
             "It looks like you typed in the wrong email or password, please try again"
           );
-        }
-
-        setIsSubmitting(false);
-      })
+         }
+       })
       .catch(error => {
         setIsSubmitting(false);
         alert(
           "It looks like you typed in the wrong email or password, please try again"
         );
-      });
+     });
   };
 
   const handleRegistration = () => {
@@ -99,10 +99,12 @@ export default (props: IAuthScreenProps) => {
         if (response.data.memipedia_user) {
           handleLogin();
         } else {
-          alert(`Error creating account: ${formatErrors(response.data.errors)}`);
+        setIsSubmitting(false);
+          alert(
+            `Error creating account: ${formatErrors(response.data.errors)}`
+          );
         };
 
-        setIsSubmitting(false);
       })
       .catch(error => {
          setIsSubmitting(false);
@@ -141,6 +143,7 @@ export default (props: IAuthScreenProps) => {
           onChangeText={val => setPassword(val)}
           style={textField}
           secureTextEntry={true}
+          onSubmitEditing={handleSubmit}
         />
       </View>
 
@@ -156,9 +159,6 @@ export default (props: IAuthScreenProps) => {
         <Button text={buttonText()} onPress={handleSubmit} />
       )}
 
-      <View>
-        <Text style={{ color: "white" }}>{JSON.stringify(currentUser)}</Text>
-      </View>
     </ScrollView>
   );
 };
