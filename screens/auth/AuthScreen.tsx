@@ -28,7 +28,7 @@ export default (props: IAuthScreenProps) => {
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { currentUser } = useContext(CurrentUserContext);
+  const { currentUser, getUser } = useContext(CurrentUserContext);
 
   const screenTypeText = () => {
     if (formToShow === "LOGIN") {
@@ -64,7 +64,11 @@ export default (props: IAuthScreenProps) => {
     API.post("memipedia_user_token", params)
       .then(async response => {
         if (response.data.jwt) {
-          await SecureStore.setItemAsync("memipedia_secure_token", response.data.jwt)
+          await SecureStore.setItemAsync(
+            "memipedia_secure_token",
+             response.data.jwt
+           );
+          getUser(); 
           props.navigation.navigate("Feed");
         } else {
           alert(
@@ -93,7 +97,7 @@ export default (props: IAuthScreenProps) => {
       .then(response => {
         console.log("Res for creating user", response.data);
         if (response.data.memipedia_user) {
-          props.navigation.navigate("Feed");
+          handleLogin();
         } else {
           alert(`Error creating account: ${formatErrors(response.data.errors)}`);
         };
