@@ -11,7 +11,7 @@ interface IContainerProps {
 
 export default (props: IContainerProps) => {
   return (
-    <View style={{baseStyles.container}}>
+    <View style={baseStyles.container}>
       {props.children}
       <BottomTabBar navigate= {props.navigate} />
     </View>

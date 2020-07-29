@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import {RFValue} from "react-native-responsive-fontsize";
 
 export default StyleSheet.create ({
     itemWrapper: {
@@ -14,11 +15,11 @@ export default StyleSheet.create ({
   postHeading: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center" 
+    alignItems: "center", 
   },
   nameText: {
     color: "white",
-    fontSize: 20,
-    fontWeight: "900"   
+    fontSize: RFValue(20, 680),
+    fontWeight: "900",   
   },
 });
