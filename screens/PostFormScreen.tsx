@@ -4,11 +4,29 @@ import { View, TextInput, Text } from 'react-native';
 import PostImagePicker from "../components/posts/postImagePicker";
 import Button from '../components/helpers/Button';
 
-
 export default () => {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [postImage, setPostImage] = useState(null);
+
+  const buildForm = () => {
+    let formData = new FormData();
+
+    formData.append("post[name]", name);
+    formData.append("post[content]", content);
+
+    const uriParts = postImage.split(".");
+    const fileType = uriParts[uriParts.length -1];//?
+
+    formData.append("post[post_image]", {
+      // @ats-ignore
+      uri: postImage,
+      name: `photo.${fileType}`,
+      type: `image/${fileType}`,
+    });
+
+    return formData;
+  };
 
   return (
    <View style={{ height: "100%" }}>
@@ -19,7 +37,7 @@ export default () => {
         />
         
         <TextInput
-          placeholder="Add meme explaination here"
+          placeholder="Add meme explanation here"
           value={content}
           onChangeText={val => setContent(val)}
           style={{ borderWidth: 2, borderColor: "black" }}
