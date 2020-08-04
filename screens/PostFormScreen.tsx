@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import { View, TextInput, Text } from 'react-native';
+import * as SecureStore from "expo-secure-store";
 
+import api from "../utils/api";
 import PostImagePicker from "../components/posts/postImagePicker";
 import Button from '../components/helpers/Button';
 
@@ -16,7 +18,7 @@ export default () => {
     formData.append("post[content]", content);
 
     const uriParts = postImage.split(".");
-    const fileType = uriParts[uriParts.length -1];//?
+    const fileType = uriParts[uriParts.length -1]; //?
 
     formData.append("post[post_image]", {
       // @ats-ignore
@@ -27,6 +29,25 @@ export default () => {
 
     return formData;
   };
+
+  const handleSubmit = async () => {
+    const token = await SecureStore.getItemAsync("memipedia_secure_token");
+
+    api
+       .post("memipedia_posts", buildForm(), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application.json",
+        "Content-Type": "multipart/form-data",  
+      },  
+    })
+    .then((response) => {
+      console.log("res from creating a new post", response.data);
+    })
+    .catch((error) => {
+      console.log("error from creating new post", error);
+    });
+  }
 
   return (
    <View style={{ height: "100%" }}>
@@ -39,7 +60,7 @@ export default () => {
         <TextInput
           placeholder="Add meme explanation here"
           value={content}
-          onChangeText={val => setContent(val)}
+          onChangeText={(val) => setContent(val)}
           style={{ borderWidth: 2, borderColor: "black" }}
         />
   
@@ -47,7 +68,7 @@ export default () => {
       <PostImagePicker setPostImage= {setPostImage} />
     </View>
 
-    <Button text="Submit"onPress={() => console.log("Submitting...")} />
+    <Button text="Submit"onPress={handleSubmit} />
 
     <View>
       <Text>{postImage ? postImage : null}</Text>
