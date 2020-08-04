@@ -12,7 +12,7 @@ import AuthLoadingScreen from "../screens/auth/AuthLoadingScreen";
 import HeaderLogo from "../components/images/HeaderLogo";
 
 import {dark} from "../styles/colors";
-import PostDetailScreen from '../screens/PostDetailScree';
+import PostDetailScreen from '../screens/PostDetailScreen';
 
 const AppStack = createStackNavigator(
     {

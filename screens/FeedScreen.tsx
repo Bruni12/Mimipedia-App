@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, ActivityIndicator, ScrollView } from "react-native";
+import { View, ActivityIndicator, ScrollView, TouchableOpacity } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 import Container from '../components/layouts/Container';
@@ -9,7 +9,7 @@ import baseStyles from "../styles/common/baseStyles";
 
 interface IFeedScreenProps {
   navigation: {
-    navigate: (arg: string) => void;
+    navigate: (screenName: string, data?: any) => void;
   };
 }
 export default (props: IFeedScreenProps) => {
@@ -39,6 +39,10 @@ export default (props: IFeedScreenProps) => {
     });
   };
 
+  const handleItemPress = (post) => {
+    props.navigation.navigate("PostDetail", {post})
+  };
+
   return (
     <Container navigate={props.navigation.navigate}>
        <View>
@@ -47,7 +51,9 @@ export default (props: IFeedScreenProps) => {
         ) : (
           <ScrollView style={baseStyles.containerWithBottomTabBar}>
             {posts.map((post) => (
+              <TouchableOpacity onPress={() => handleItemPress(post)}>
               <PostItem key={post.id} post={post} />
+              </TouchableOpacity>
             ))} 
           </ScrollView>
         )}
