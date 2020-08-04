@@ -10,6 +10,7 @@ export default () => {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [postImage, setPostImage] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const buildForm = () => {
     let formData = new FormData();
@@ -32,10 +33,11 @@ export default () => {
 
   const handleSubmit = async () => {
     const token = await SecureStore.getItemAsync("memipedia_secure_token");
+    setIsSubmitting(true);
 
     api
-       .post("memipedia_posts", buildForm(), {
-      headers: {
+      .post("memipedia_posts", buildForm(), {
+       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application.json",
         "Content-Type": "multipart/form-data",  
@@ -43,9 +45,11 @@ export default () => {
     })
     .then((response) => {
       console.log("res from creating a new post", response.data);
+      setIsSubmitting(false);
     })
     .catch((error) => {
       console.log("error from creating new post", error);
+      setIsSubmitting(false);
     });
   }
 
@@ -68,11 +72,11 @@ export default () => {
       <PostImagePicker setPostImage= {setPostImage} />
     </View>
 
-    <Button text="Submit"onPress={handleSubmit} />
-
-    <View>
-      <Text>{postImage ? postImage : null}</Text>
-    </View>
+    {isSubmitting ? (
+      <Button text="Submitting..." disabled />
+    ) : (
+      <Button text="Submit"onPress={handleSubmit} />
+    )}
    </View>
   );
 };
