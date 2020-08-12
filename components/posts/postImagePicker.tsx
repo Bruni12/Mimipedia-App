@@ -1,9 +1,11 @@
 import * as React from "react";
-import {useState, useEffect} from "react";
-import { Button, Image, View } from "react-native";
+import { useState, useEffect } from "react";
+import { TouchableOpacity, Image, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
+import EvilIcons from "react-native-vector-icons/EvilIcons";
+import { primary } from "../../styles/colors";
 
 interface IPostImagePickerProps {
   setPostImage: (arg: any) => void;
@@ -11,9 +13,9 @@ interface IPostImagePickerProps {
 export default (props: IPostImagePickerProps) => {
   const [image, setImage] = useState(null);
 
-  useEffect(()=> {
-    getPermissionAsync(); 
-  }, [])
+  useEffect(() => {
+    getPermissionAsync();
+  }, []);
 
   const getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -34,7 +36,7 @@ export default (props: IPostImagePickerProps) => {
       });
       if (!result.cancelled) {
         setImage(result.uri);
-        props.setPostImage(result.uri)
+        props.setPostImage(result.uri);
       }
 
       console.log(result);
@@ -43,12 +45,31 @@ export default (props: IPostImagePickerProps) => {
     }
   };
 
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Button title="Pick an image from camera roll" onPress={pickImage}  />
-        {image && (
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-        )}
-      </View>
-    );
+  const size = {
+    height: 100,
+    width: 100,
+  };
+
+  const contentRenderer = () => {
+    if (image) {
+      return <Image source={{ uri: image }} style={size} />;
+    } else {
+      return <EvilIcons name="camera" color={primary} size={42} />;
+    }
+  };
+
+  return (
+    <TouchableOpacity
+      onPress={pickImage}
+      style={[
+        size,
+        {
+          justifyContent: "center",
+          alignItems: "center",
+        },
+      ]}
+    >
+      {contentRenderer()}
+    </TouchableOpacity>
+  );
 };

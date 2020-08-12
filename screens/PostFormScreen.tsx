@@ -6,7 +6,12 @@ import api from "../utils/api";
 import PostImagePicker from "../components/posts/postImagePicker";
 import Button from '../components/helpers/Button';
 
-export default () => {
+interface IPostFormScreenProps {
+  navigation: {
+    navigate: (screenName: string, data: any) => void;
+  }
+}
+export default (props: IPostFormScreenProps) => {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [postImage, setPostImage] = useState(null);
@@ -46,12 +51,22 @@ export default () => {
     .then((response) => {
       console.log("res from creating a new post", response.data);
       setIsSubmitting(false);
+
+      if (response.data.memipedia_post) {
+      props.navigation.navigate("postDetail",{
+        post:response.data.memipedia_post,
+      }); 
+      } else {
+        alert (
+          "There was an issue creating the post, all fields are required, and only images are allowed."
+       );
+      }
     })
     .catch((error) => {
       console.log("error from creating new post", error);
       setIsSubmitting(false);
     });
-  }
+  };
 
   return (
    <View style={{ height: "100%" }}>
@@ -66,6 +81,7 @@ export default () => {
           value={content}
           onChangeText={(val) => setContent(val)}
           style={{ borderWidth: 2, borderColor: "black" }}
+          multiline
         />
   
     <View style={{ marginTop: 40, height: 100 }}>
@@ -75,7 +91,7 @@ export default () => {
     {isSubmitting ? (
       <Button text="Submitting..." disabled />
     ) : (
-      <Button text="Submit"onPress={handleSubmit} />
+      <Button text="Submit" onPress={handleSubmit} />
     )}
    </View>
   );
