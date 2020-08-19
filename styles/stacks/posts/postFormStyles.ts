@@ -24,6 +24,6 @@ export default StyleSheet.create({
   },
   buttonWrapper: {
     paddingRight: 15,
-    PaddingLeft: 15,
+    paddingLeft: 15,
   },
 })
