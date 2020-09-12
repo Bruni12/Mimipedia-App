@@ -1,10 +1,10 @@
-import React, {useState, useRef } from 'react';
-import { View, TextInput, ScrollView  } from 'react-native';
+import React, {useState, useRef } from "react";
+import { View, TextInput, ScrollView  } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 import api from "../utils/api";
 import PostImagePicker from "../components/posts/postImagePicker";
-import Button from '../components/helpers/Button';
+import Button from "../components/helpers/Button";
 import postFormStyles from "../styles/stacks/posts/postFormStyles";
 const {
   container,
