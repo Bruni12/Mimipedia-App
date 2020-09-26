@@ -29,5 +29,5 @@ export default (props: IPostListProps) => {
     <ScrollView style={baseStyles.containerWithBottomTabBar}>
     {postsRenderer()} 
   </ScrollView>
-  )
-}
+  );
+};
