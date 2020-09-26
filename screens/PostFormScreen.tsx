@@ -42,7 +42,7 @@ export default (props: IPostFormScreenProps) => {
     formData.append("post[content]", content);
 
     const uriParts = postImage.split(".");
-    const fileType = uriParts[uriParts.length -1]; //?
+    const fileType = uriParts[uriParts.length -1]; 
 
     formData.append("post[post_image]", {
       // @ats-ignore
